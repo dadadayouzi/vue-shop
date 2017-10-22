@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>vue-fruit</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_443118_tukscdmqoxi7wrk9.css">
+    <script>
+      //动态计算根元素字体大小
+      let desW=640;
+      let doc=document.documentElement;
+      function refreshRem() {
+        let winW=doc.clientWidth;
+        if(winW>640){
+          doc.style.fontsize=100+'px';
+          return;
+        }
+        let radio=desW/winW;
+        doc.style.fontSize=100/radio+'px';
+      }
+      refreshRem();
+      window.addEventListener('resize',refreshRem)
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
