@@ -41,7 +41,7 @@
         <div class="loadMore">
           <span @click="changeMore" v-if="more">加载更多</span>
           <span v-if="isShow">正在加载中...</span>
-          <span v-if="noMore">别扯了，加载也是有底线的！！！</span>
+          <span v-if="noMore">没有更多商品</span>
         </div>
       </div>
       <transition
@@ -89,8 +89,9 @@
     watch: {
       val() {
         this.newlist = [];
+        this.more=false;
         axios.get('/api/hot').then(res => {
-          this.list = res.data;
+          this.list=this.newFruits;
         }).then(() => {
           for (let i = 0; i < this.list.length; i++) {
             let cur = this.list[i];
@@ -101,7 +102,7 @@
             }
           }
           if (this.val === '') {
-            this.getList();
+            this.newlist=this.newFruits;
           }
           this.list = this.newlist;
         });
@@ -109,7 +110,7 @@
       },
     },
     created() {
-      this.getList();
+      this.newFruits.length===0?this.getList():this.list=this.newFruits;
       this.getSliders();
     },
     components: {
@@ -167,12 +168,13 @@
       },
       getList() {
         axios.get('/api/hot').then(res => {
-          this.list = res.data;
+          this.newFruits=this.list = res.data;
         })
       },
       regetList() {
+        this.newlist = [];
         if (this.val === '') {
-          this.getList();
+          this.newFruits.length===0?this.getList():this.list=this.newFruits;
         }
       },
       backhome(e) {
@@ -192,20 +194,16 @@
         }
         setTimeout(() => {
           axios.get('/api/hot').then(res => {
-            console.log(res);
-            this.newFruits = res.data;
-            this.list.push(...this.newFruits);
+            this.newFruits = res.data.concat(this.list);
+            this.list=this.newFruits;
             this.isShow = false;
             this.more = true;
           })
         }, 300)
-
-
       },
     },
     computed: {},
     mounted() {
-      console.log(this.$refs.container);
       upLoadMore(this.$refs.container, this.changeMore)
     }
   }

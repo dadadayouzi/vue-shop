@@ -7,7 +7,6 @@ export function upLoadMore(element,callback) {
     if(timer) clearTimeout(timer);
     timer=setTimeout(()=>{
       let scrollTop = element.scrollTop;
-      console.log(scrollTop);
       let winHeight = element.clientHeight;
       let content = element.scrollHeight;
       if(scrollTop+winHeight+300>=content){

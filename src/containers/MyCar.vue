@@ -16,10 +16,8 @@
           <p>{{product.bookName}}</p>
           <div class="b">
             <span class="price">¥ {{product.bookPrice}}</span>
-            <!--<span>{{product.productCount*product.productPrice}}</span>-->
             <span class="list-count">
               <button @click="changeVal(product,-1,index)">-</button>
-              <!--<input type="text" v-model="product.productCount">-->
               <input type="text" :value="product.count">
               <button @click="product.count++">+</button>
               <button @click="remove(product.id)" class="button"><i class="iconfont icon-delete"></i></button>
@@ -43,8 +41,7 @@
 <script>
   import MHeader from '../components/MHeader.vue';
   import axios from 'axios';
-  //  import pro from '../../pro.json';
-  //  import fastclick from '../js/fastclick';
+
   export default {
     data() {
       return {
@@ -52,7 +49,7 @@
         all: true,
         confirm: false,
         cupCarts: [],
-        notlogin:''
+        notlogin: ''
       }
     },
     filters: {
@@ -61,34 +58,30 @@
       }
     },
     created() {
-     this.getCarts();
+      this.getCarts();
     },
     components: {MHeader},
     methods: {
-        getCarts(){
-            axios.get('/api/car/list').then(res=>{
-              console.log(res);
-              if(!res.data.code){
-                  this.notlogin = '亲，你还没有登录哦~~~'
-              }else {
-                this.notlogin = '';
-                this.products = res.data.fruits
-              }
+      getCarts() {
+        axios.get('/api/car/list').then(res => {
+          if (!res.data.code) {
+            this.notlogin = '亲，你还没有登录哦~~~'
+          } else {
+            this.notlogin = '';
+            this.products = res.data.fruits
+          }
 
-            })
-        },
+        })
+      },
       checkAll() {
-        console.log(this.all);
         this.products.forEach((item => item.isSelected = this.all))
       },
       checkOne() {
         this.all = this.products.every(item => item.isSelected)
       },
       remove(product) {//product标示当前点击的是哪个商品
-//        console.log(product);
         this.products = this.products.filter(item => item.id !== product);
-        axios.get(`/api/car/delete?id=${product}`).then(res=>{
-          console.log(res);
+        axios.get(`/api/car/delete?id=${product}`).then(res => {
         })
       },
       changeVal(product, val) {
@@ -120,106 +113,110 @@
 <style scoped lang="less">
   .my-car {
     position: fixed;
-    top: 50px;
-    bottom: 90px;
+    top: 1rem;
+    bottom: 1.8rem;
     width: 100%;
-    padding-left: 15px;
-  input {
-    ouline: none
+    padding-left: 0.3rem;
+    input {
+      ouline: none
+    }
+    .list-title {
+      width: 100%;
+      padding: 0.1rem 0;
+      border-bottom: 0.02rem solid #e2e3e7;
+    }
+    .car-list {
+      overflow: hidden;
+      display: block;
+      width: 100%;
+      padding: 0.28rem 0;
+      border-bottom: 0.02rem solid #e2e2e2;
+      .l0 {
+        float: left;
+        height: 0.4rem;
+        width: 0.4rem;
+        margin-top: 0.4rem;
+      }
+      .l1 {
+        float: left;
+        padding: 0 0.1rem;
+        img {
+          width: 1.6rem;
+          height: 1.6rem;
+        }
+      }
+      .r0 {
+        p {
+          font-size: 0.28rem;
+          padding-right: 0.12rem;
+        }
+        .price {
+          color: red;
+        }
+        .list-count {
+          float: right;
+          margin-right: 0.24rem;
+          input {
+            width: 1.2rem;
+            border: 1px solid #e2e2e2;
+            outline: none;
+            font-size: 0.24rem;
+            padding: 0.06rem 0.1rem;
+          }
+          button {
+            outline: none;
+            border: none;
+            background: none;
+            margin-left: 0.16rem;
+            i {
+              font-weight: 300;
+              color: orangered;
+            }
+          }
+        }
+      }
+    }
   }
-  .list-title {
-    width: 100%;
-    padding: 5px 0;
-    border-bottom: 1px solid #e2e3e7;
-  }
-  .car-list {
-    overflow: hidden;
-    display: block;
-    width: 100%;
-    padding: 14px 0;
-    border-bottom: 1px solid #e2e2e2;
-  .l0 {
-    float: left;
-    height: 20px;
-    width: 20px;
-    margin-top: 20px;
-  }
-  .l1 {
-    float: left;
-    padding: 0 5px;
-  img {
-    width: 80px;
-    height: 80px;
-  }
-  }
-  .r0 {
-  p {
-    font-size: 14px;
-    padding-right: 6px;
-  }
-  .price {
-    color: red;
-  }
-  .list-count {
-    float: right;
-    margin-right: 12px;
-  input {
-    width: 60px;
-    border: 1px solid #e2e2e2;
-    outline: none;
-    font-size: 12px;
-    padding: 3px 5px;
-  }
-  .button {
-    outline: none;
-    margin-left: 8px;
-  i {
-    font-weight: 300;
-    color: orangered;
-  }
-  }
-  }
-  }
-  }
-  }
+
   .car-counts {
     display: flex;
     justify-content: space-between;
-    border-top: 1px solid #e2e2e2;
+    border-top: 0.01rem solid #e2e2e2;
     align-items: center;
     position: fixed;
-    bottom: 45px;
+    bottom: 0.9rem;
     width: 100%;
-    height: 48px;
+    height: 0.96rem;
     background: #fff;
     z-index: 10;
-    padding-left: 15px;
-  div {
-  label {
-    font-size: 14px;
-    font-weight: 400;
+    padding-left: 0.3rem;
+    div {
+      label {
+        font-size: 0.28rem;
+        font-weight: 400;
+      }
+    }
+    .price {
+      position: fixed;
+      right: 2.4rem;
+      span {
+        color: #e4393c;
+      }
+    }
+    a {
+      height: 0.96rem;
+      line-height: 0.96rem;
+      padding: 0 0.4rem;
+      border-radius: 0;
+      background: #e4393c;
+      color: #FFF;
+    }
   }
-  }
-  .price {
-    position: fixed;
-    right: 120px;
-  span {
-    color: #e4393c;
-  }
-  }
-  a {
-    height: 48px;
-    line-height: 48px;
-    padding: 0 20px;
-    border-radius: 0;
-    background: #e4393c;
-    color: #FFF;
-  }
-  }
-  .notLogin{
+
+  .notLogin {
     text-align: center;
-    line-height: 300px;
-    font-size: 0.4rem;
+    line-height: 6rem;
+    font-size: 0.3rem;
     color: gray;
   }
 

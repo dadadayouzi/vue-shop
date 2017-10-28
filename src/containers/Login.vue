@@ -1,23 +1,22 @@
 <template>
   <div class="login">
     <a style="float: right;display:block;width: 20px;height:20px; font-size: 35px; margin-right: 5px" href="/">&times;</a>
-
     <div class="avatar">
       <img class="reg_img" src="" alt="">
     </div>
     <form class="myForm">
       <div class="form-group fromGroup">
-        <label style="line-height: 30px;" for="exampleInputEmail1">用户名</label>
+        <label for="exampleInputEmail1" class="username">用户名</label>
         <input  type="请输入用户名" class="form-control fromControl" id="exampleInputEmail1" placeholder="请输入用户名" v-model="user.username">
       </div>
       <div class="form-group fromGroup">
-        <label style="line-height: 30px;" for="exampleInputPassword1">密码</label>
+        <label for="exampleInputPassword1" class="password">密码</label>
         <input type="请输入密码" class="form-control fromControl" id="exampleInputPassword1" placeholder="请输入密码" v-model="user.password">
       </div>
-      <router-link class="reg_aa" to="/register">请前往注册页面-> </router-link>
+      <router-link class="go-log" to="/register">请前往注册页面-> </router-link>
 
       <div class="reg_btn">
-        <button @click.prevent="login" class="btn btn-default BTN">登录</button>
+        <button @click.prevent="login" class="btn btn-default log">登录</button>
       </div>
     </form>
     <div id="mock" v-if="this.bb"><p>{{this.bb}}<span @click="ccc"><b>确定</b></span></p></div>
@@ -41,11 +40,8 @@
     methods: {
       login(){
         axios.post('/api/user/signin',this.user).then(res=>{
-          console.log(res.data.code);
           if(res.data.code){
               this.bb='亲，您还没有注册哦！';
-            console.log(this.bb);
-           //  alert('亲，您还没有注册哦！')
           }else {
            // this.$router.push('/profile')
               }
@@ -66,7 +62,7 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="less">
   *{
     margin: 0;
     padding: 0;
@@ -103,24 +99,19 @@
   }
   .myForm{
     margin: 40px 20px 100px;
+    .username,.password{
+      font-size: 15px;
+      line-height: 30px;
+    }
   }
-  /*.l{*/
-    /*margin-bottom: 20px;*/
-  /*}*/
-  /*.l input{*/
-    /*padding: 0 5px;*/
-  /*}*/
-
   .fromGroup{
     width: 100%;
     height:80px;
     font-size: 16px;
 
   }
-
   .fromGroup .fromControl{
     width: 100%;
-    /*height:40px;*/
     font-size: 16px;
     padding-left: 10px;
     border: 1px solid #cecece;
@@ -130,12 +121,13 @@
     display:flex;
 
   }
-  .reg_aa{
+  .go-log{
     color:red;
     float: right;
+    font-size: 12px;
   }
 
-  .BTN{
+  .log{
     justify-content: center;
     margin:30px auto;
     width: 100%;

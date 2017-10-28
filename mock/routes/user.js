@@ -18,7 +18,6 @@ router.post('/signup',checkNotLogin,function (req,res) {
       })
     }
   })
-
 });
 router.post('/signin',checkNotLogin,function (req,res) {
   let user = req.body;
